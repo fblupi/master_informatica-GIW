@@ -1,0 +1,131 @@
+\input{estilo.tex}
+\usepackage{textcomp}
+\usepackage{hyperref}
+
+%----------------------------------------------------------------------------------------
+%	DATOS
+%----------------------------------------------------------------------------------------
+
+\newcommand{\myName}{Francisco Javier Bolívar Lupiáñez}
+\newcommand{\myMail}{fblupi@correo.ugr.es}
+\newcommand{\myDNI}{75926571-Y}
+\newcommand{\myDegree}{Máster en Ingeniería Informática}
+\newcommand{\myFaculty}{E. T. S. de Ingenierías Informática y de Telecomunicación}
+\newcommand{\myDepartment}{Ciencias de la Computación e Inteligencia Artificial}
+\newcommand{\myUniversity}{\protect{Universidad de Granada}}
+\newcommand{\myLocation}{Granada}
+\newcommand{\myTime}{\today}
+\newcommand{\myTitle}{Práctica 2}
+\newcommand{\mySubtitle}{Caso Práctico de Análisis y Evaluación de Redes en Twitter}
+\newcommand{\mySubject}{Gestión de Información en la Web}
+\newcommand{\myYear}{2016-2017}
+
+%----------------------------------------------------------------------------------------
+%	PORTADA
+%----------------------------------------------------------------------------------------
+
+
+\title{	
+	\normalfont \normalsize 
+	\textsc{\textbf{\mySubject \space (\myYear)} \\ \myDepartment} \\[20pt] % Your university, school and/or department name(s)
+	\textsc{\myDegree \\[10pt] \myFaculty \\ \myUniversity} \\[25pt]
+	\horrule{0.5pt} \\[0.4cm] % Thin top horizontal rule
+	\huge \myTitle: \mySubtitle \\ % The assignment title
+	\horrule{2pt} \\[0.5cm] % Thick bottom horizontal rule
+	\normalfont \normalsize
+}
+
+\author{
+	\myName \\
+	\small \myMail \\
+	\small \myDNI \\
+}
+
+\date{\myTime} % Incluye la fecha actual
+%----------------------------------------------------------------------------------------
+%	INDICE
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+	
+\definecolor{light-gray}{gray}{0.95}
+	
+\lstset {
+	basicstyle=\scriptsize,
+	frame=single,
+	backgroundcolor=\color{grey}
+}
+	
+\setcounter{page}{0}
+
+\maketitle % Muestra el Título
+\thispagestyle{empty}
+
+\newpage %inserta un salto de página
+
+\tableofcontents % para generar el índice de contenidos
+
+%\listoffigures
+
+\newpage
+
+%----------------------------------------------------------------------------------------
+%	DOCUMENTO
+%----------------------------------------------------------------------------------------
+
+\section{Introducción}
+
+El medio social he escogido ha sido Twitter ya que se nos ha proporcionado una herramienta para su fácil extracción de datos (NodeXL) sin tener que perder tiempo programando llamadas a la API de Twitter.
+\\ \\
+La elección del tema fue más complicado, pues sabía que lo mejor era utilizar un tema que conociese y no cualquier \textit{trending topic} que viese un día. Por ello, tras estar varios días extrayendo redes de distintas temáticas, me decidí por la red obtenida tras el primer Gran Premio de Fórmula 1 de la temporada 2017/2018 celebrado en Australia con el \textit{hash tag} oficial \#AusGP.
+\\ \\
+La Fórmula 1 tiene un gran número de seguidores alrededor de todo el mundo. Hay muchos que durante una carrera mencionan a cualquier piloto o escudería, por lo que acaban mencionando al que hace cosas más destacables durante la carrera, y otros, más fanáticos, que mencionan solo al piloto de su país o escudería preferida. Por lo tanto, mi pregunta es: ¿Qué tipo de aficionado es el mayoritario, el neutral que menciona a más de un piloto o escudería o el fanático que solo menciona a un piloto o escudería? Al mismo tiempo, se podrán ver quiénes fueron los usuarios más mencionados tras el Gran Premio, ¿coincidirá con los protagonistas de la carrera?
+\\ \\
+Para la extracción de datos se ha utilizado, como se ha mencionado anteriormente, NodeXL en su versión gratuita limitada, por tanto, nos encontramos con una limitación de un máximo de 2000 tuits cada vez que extrajésemos datos. Para lidiar con ello y poder obtener una red más grande se extrajeron datos de un periodo de tiempo a otro, obteniendo los tuits que transcurrieron durante las siguiente franjas horarias:
+
+\begin{itemize}
+	\item 9:33 - 9:38 (Recién terminada la carrera)
+	\item 13:59 - 14:33 (Recién terminada la carrera en su segunda emisión en horario europeo)
+	\item 15:30 - 17:09 (Tras los informativos televisivos)
+\end{itemize}
+
+La primera conclusión que podemos extraer de aquí es que el tiempo de actividad es mucho mayor durante la carrera en directo que durante la carrera en diferido (pese a ser una hora bastante mala para los aficionados europeos pues tuvieron que madrugar un domingo para poder verla).
+
+\section{Estructura de la red}
+
+Lala
+
+\section{Valores de medidas estudiadas}
+
+Lala
+
+\section{Propiedades de la red}
+
+Lala
+
+\section{Medidas de centralidad para nodos principales}
+
+Lala
+
+\section{Comunidades}
+
+Lala
+
+\section{Visualización}
+
+Lala
+
+\section{Resultados finales}
+
+Lala
+
+%----------------------------------------------------------------------------------------
+%	REFERENCIAS
+%----------------------------------------------------------------------------------------
+
+\newpage
+
+\bibliography{referencias} %archivo referencias.bib que contiene las entradas 
+\bibliographystyle{plain} % hay varias formas de citar
+
+\end{document}
