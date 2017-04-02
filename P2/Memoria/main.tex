@@ -93,11 +93,79 @@ La primera conclusión que podemos extraer de aquí es que el tiempo de activida
 
 \section{Estructura de la red}
 
-Lala
+En la red extraída desde NodeXL los nodos son los usuarios (con información adicional como su número de seguidores, de usuarios que siguen, tuits o tuits marcacdos como favoritos) y las aristas son la interacción entre usuarios (mención, respuesta o retuit), por tanto se trata de una red dirigida.
+\\ \\
+La red original consta de 4601 nodos y 6698 aristas. Aplicando un primer filtro de componente gigante para deshacerse de grupos pequeños que no interaccionan con el grupo más grande, pasamos a 3476 nodos y 5703 aristas (el 75,55\% y 85,14\% respectivamente con respecto a la red social original).
+\\ \\
+A continuación se ha aplicado un filtro de \textit{k-core} con grado 3 para seguir simplificándola pues seguía siendo todavía demasiado grande y difícil de visualizar. Aplicando este filtro pasamos a 532 nodos y 1783 aristas.
 
-\section{Valores de medidas estudiadas}
+\section{Valores de medidas de análisis}
 
-Lala
+\subsection{Red original}
+
+\begin{table}[H]
+	\centering
+	\caption{Valores de las medidas de análisis de la red original}
+	\label{tab:medidas-original}
+	\begin{tabular}{| l | l |}
+		\hline
+		Medida                & Valor          \\ 
+		\hline
+		$N$                   & 4601           \\
+		$L$                   & 6704           \\
+		$D$                   & 0,0003         \\
+		$k$                   & 1,457          \\
+		$d_{max}$             & 4              \\
+		$d$                   & 1,179          \\
+		$d_{aleatoria}$       & 22,408         \\
+		$C$                   & 0,079          \\
+		$C_{aleatoria}$       & 0,0003         \\
+		Componentes conexas   & 432            \\ 
+		$N_{gigante}$         & 3476 (75,55\%) \\ 
+		$L_{gigante}$         & 5703 (85,14\%) \\ 
+		\hline
+	\end{tabular}
+\end{table}
+
+La densidad de la red original es muy pequeña vemos que hay casi el mismo número de nodos que de enlaces, ya que muchos usuarios solo mencionarían a un usuario. La mayoría a la cuenta oficial de F1 (\textit{@f1}) pero muchos otros a Ferrari (\textit{@scuderiaferrari}) ya que Sebastian Vettel (el cual no tiene cuenta oficial de Twitter) fue quien, ante todo pronóstico, ganó la carrera.
+\\ \\
+La distancia media de un nodo a otro es muy pequeña
+\\ \\
+El coeficiente de clustering medio es muy bajo y el de para una red aleatoria más bajo todavía. Y es que como podemos ver hay hasta 432 componentes conexas lo cual puede explicar este valor tan bajo. En muchos casos es debido a usuarios que responden a otros usando el \textit{hash tag} sin mencionar a ningún otro usuario.
+
+\subsection{Red filtrada}
+
+\begin{table}[H]
+	\centering
+	\caption{Valores de las medidas de análisis de la red filtrada}
+	\label{tab:medidas-filtrada}
+	\begin{tabular}{| l | l |}
+		\hline
+		Medida                & Valor        \\ 
+		\hline
+		$N$                   & 532          \\
+		$L$                   & 1783         \\
+		$D$                   & 0,006        \\
+		$k$                   & 3,352        \\
+		$d_{max}$             & 4            \\
+		$d$                   & 1,189        \\
+		$d_{aleatoria}$       & 5,189        \\
+		$C$                   & 0,131        \\
+		$C_{aleatoria}$       & 0,006        \\ 
+		Componentes conexas   & 1            \\ 
+		$N_{gigante}$         & 532 (100\%)  \\ 
+		$L_{gigante}$         & 1783 (100\%) \\ 
+		\hline
+	\end{tabular}
+\end{table}
+
+La densidad sigue siendo pequeña pero es bastante mayor que la de la red original (20 veces mayor).
+\\ \\
+Distancia-diámetro-distancia aleatoria
+\\ \\
+El coeficiente de \textit{clustering} sigue siendo bastante pequeño, lo cual puede hacer difícil la detección de comunidades para un número de comunidades pequeña.
+\\ \\
+En este caso, al haberse filtrado la red previamente usando la componente gigante, el número de componentes conexas es 1, como no podría ser de otra manera.
 
 \section{Propiedades de la red}
 
@@ -109,11 +177,181 @@ Lala
 
 \section{Comunidades}
 
-Lala
+Se ha utilizado Gephi para detectar comunidades dando una resolución de 1,5 y obteniendo 9 comunidades y un coeficiente de 0,412, el cual supera la barrera de 0,3 para considerarlo aceptable.
+\\ \\
+Para diferenciar los grupos he buscado las distintas cuentas de escuderías y pilotos:
+
+\begin{itemize}
+	\item Escudería Mercedes:
+	\begin{itemize}
+		\item \textit{@mercedesamgf1}: 2
+		\item \textit{@lewishamilton}: 2
+		\item \textit{@valtteribottas}: 2
+	\end{itemize}
+
+	\item Escudería Ferrari:
+	\begin{itemize}
+		\item \textit{@scuderiaferrari}: 3
+	\end{itemize}
+
+	\item Escudería Red Bull:
+	\begin{itemize}
+		\item \textit{@redbullracing}: 4
+		\item \textit{@danielricciardo}: 4
+		\item \textit{@max33verstappen}: 4
+	\end{itemize}
+	
+	\item Escudería Force India:
+	\begin{itemize}
+		\item \textit{@forceindiaf1}: 5
+		\item \textit{@schecoperez}: 7
+		\item \textit{@oconesteban}: 5
+		\item \textit{@thevijaymallya}: 5
+	\end{itemize}
+
+	\item Escudería Williams:
+	\begin{itemize}
+		\item \textit{@williamsracing}: 5
+		\item \textit{@massafelipe19}: 5
+		\item \textit{@lance\_stroll}: 0
+	\end{itemize}
+
+	\item Escudería McLaren:
+	\begin{itemize}
+		\item \textit{@mclarenf1}: 0
+		\item \textit{@alo\_oficial}: 2
+		\item \textit{@svandoorne}: 0
+	\end{itemize}
+
+	\item Escudería Toro Rosso:
+	\begin{itemize}
+		\item \textit{@tororossospy}: 5
+		\item \textit{@carlossainz55}: 5
+		\item \textit{@kvyatofficial}: 5
+	\end{itemize}
+
+	\item Escudería Haas:
+	\begin{itemize}
+		\item \textit{@haasf1team}: 5
+		\item \textit{@rgrosjean}: 0
+		\item \textit{@kevinmagnussen}: 0
+	\end{itemize}
+
+	\item Escudería Renault:
+	\begin{itemize}
+		\item \textit{@renaultsportf1}: 5
+		\item \textit{@hulkhulkenberg}: 5
+		\item \textit{@jolyonpalmer}: 0
+	\end{itemize}
+
+	\item Escudería Sauber:
+	\begin{itemize}
+		\item \textit{@sauberf1team}: 5
+		\item \textit{@ericsson\_marcus}: 5
+		\item \textit{@anto\_giovinazzi}: 5
+	\end{itemize}
+\end{itemize} 
+
+Se ve que las tres principales escuderías están en tres comunidades distintas (Mercedes la 2, Ferrari la 3 y Red Bull la 4) mientras que el resto de escuderías se encuentran mayoritariamente en la misma comunidad (la 5). Con algunas excepciones entre las que se pueden destacar a:
+
+\begin{itemize}
+	\item Fernando Alonso: que se encuentra en la misma comunidad que Mercedes, posiblemente porque en verano se rumoreó que cambiaría a este equipo donde podría optar a volver a ser campeón del mundo y tras problemas en su coche actual tuvo que abandonar la carrera.
+	\item Sergio ``Checo'' Pérez: Único piloto mexicano de la plantilla. Los mexicanos tienen fama de ser muy fanáticos y se encuentra en un grupo independiente con usuarios mayoritariamente mexicanos (Figura \ref{fig:comunidad-perez}).
+\end{itemize}
+ 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=14cm]{img/comunidad-perez}
+	\caption{Comunidad alrededor del piloto mexicano Checo Pérez}
+	\label{fig:comunidad-perez}
+\end{figure}
 
 \section{Visualización}
 
-Lala
+Se han probado los dos algoritmos principales para visualizar las redes (de distribución guiados por fuerzas), en primer lugar el de Fruchterman Reingold usando el número de seguidores para el tamaño del nodo y la comunidad a la que pertenece para el color (Figura \ref{fig:fruchterman-reingold}).
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=14cm]{img/fruchterman-reingold}
+	\caption{Visualización utilizando el algoritmo de Fruchterman Reingold}
+	\label{fig:fruchterman-reingold}
+\end{figure}
+
+También se ha probado el de Kamada Kawai (\textit{Force Atlas 2} en Gephi) usando el número de seguidores para el tamaño del nodo y la comunidad a la que pertenece para el color (Figura \ref{fig:kamada-kawai}).
+	
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=14cm]{img/kamada-kawai}
+	\caption{Visualización utilizando el algoritmo de Kamada Kawai}
+	\label{fig:kamada-kawai}
+\end{figure}
+
+Viendo sendas visualizaciones, me parece que aporta más la segunda. Separa muy bien dos comunidades que se alejan bastante del núcleo y dentro de éste la mayoría de los nodos de una misma comunidad están en el centro, excepto los más centrales donde se mezclan de varias comunidades (tal vez porque podrían pertenecer perfectamente a cualquiera).
+\\ \\
+Para ver más claramente cuáles son los nodos con mayor grado de entrada, y tras ya haber analizado las comunidades, se va a pasar a cambiar el color para que muestre el grado de entrada (Figura \ref{fig:in-degree}).
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=14cm]{img/in-degree}
+\caption{Visualización utilizando el algoritmo de Kamada Kawai usando el \textit{in-degree} para colorear los nodos}
+\label{fig:in-degree}
+\end{figure}
+
+Con esto vemos cuales son las cuentas más mencionadas:
+
+\begin{itemize}
+	\item \textit{@f1}: La cuenta oficial de la Fórmula 1. Lo cuál era de esperar. Además es mencionada por todas las comunidades que se han detectado (Figura \ref{fig:f1-mentions}).
+\end{itemize}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=14cm]{img/f1-mentions}
+	\caption{Usuarios que mencionan a la cuenta @f1}
+	\label{fig:f1-mentions}
+\end{figure}
+
+\begin{itemize}
+	\item \textit{@scuderiaferrari}: La escudería que ganó la carrera, mencionada por todos los medios de noticias y muchísimos aficionados (además de los que ya tiene). También es mencionada por todas las comunidades detectadas (Figura \ref{fig:scuderiaferrari-mentions}).
+\end{itemize}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=14cm]{img/scuderiaferrari-mentions}
+	\caption{Usuarios que mencionan a la cuenta @scuderiaferrari}
+	\label{fig:scuderiaferrari-mentions}
+\end{figure}
+
+\begin{itemize}	
+	\item \textit{@mercedesamgf1}, \textit{@lewishamilton} y \textit{@valtteribottas}: Los grandes derrotados. Un fallo en la estrategia del equipo privó de la victoria a Hamilton. Son también mencionados por todas las comunidades, pero en una proporción mucho menor a las dos cuentas anteriores (Figuras \ref{fig:mercedesamgf1-mentions}, \ref{fig:lewishamilton-mentions} y \ref{fig:valtteribottas-mentions}).
+\end{itemize}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=14cm]{img/mercedesamgf1-mentions}
+	\caption{Usuarios que mencionan a la cuenta @mercedesamgf1}
+	\label{fig:mercedesamgf1-mentions}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=14cm]{img/lewishamilton-mentions}
+	\caption{Usuarios que mencionan a la cuenta @lewishamilton}
+	\label{fig:lewishamilton-mentions}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=14cm]{img/valtteribottas-mentions}
+	\caption{Usuarios que mencionan a la cuenta @valtteribottas}
+	\label{fig:valtteribottas-mentions}
+\end{figure}
+
+\begin{itemize}	
+	\item \textit{@sebvettelnews}: A falta de cuenta oficial del piloto vencedor de la carrera, la cuenta más exitosa que publica noticias sobre él gana protagonismo.
+	\item \textit{@ausgrandprix}: La cuenta oficial del Gran Premio de Australia. Se celebró allí y obviamente es muy mencionado pero no tanto como la propia cuenta oficial de la Fórmula 1.
+	\item Cuentas de pilotos y equipos: En especial pilotos que tuvieron protagonismo durante la carrera, ya que otros, como Felipe Massa que, pese a lograr una buena posición, tuvo una carrera aburrida con pocas batallas en pista muestra un verde más pálido que equipos como Red Bull, Force India, Toro Rosso o McLaren y sus pilotos que animaron más la carrera.
+\end{itemize}
+
 
 \section{Resultados finales}
 
