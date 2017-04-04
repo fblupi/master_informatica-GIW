@@ -129,7 +129,7 @@ A continuación se ha aplicado un filtro de \textit{k-core} con grado 3 para seg
 
 La densidad de la red original es muy pequeña vemos que hay casi el mismo número de nodos que de enlaces, ya que muchos usuarios solo mencionarían a un usuario. La mayoría a la cuenta oficial de F1 (\textit{@f1}) pero muchos otros a Ferrari (\textit{@scuderiaferrari}) ya que Sebastian Vettel (el cual no tiene cuenta oficial de Twitter) fue quien, ante todo pronóstico, ganó la carrera.
 \\ \\
-La distancia media de un nodo a otro es muy pequeña
+La distancia media de un nodo a otro es muy pequeña lo cual es lógico al haber nodos que están conectados con un enorme número de usuarios. Además, el diámetro es de tan solo 4, por lo que, como muchos en 4 pasos, se podría pasar de un nodo a cualquier otro.
 \\ \\
 El coeficiente de clustering medio es muy bajo y el de para una red aleatoria más bajo todavía. Y es que como podemos ver hay hasta 432 componentes conexas lo cual puede explicar este valor tan bajo. En muchos casos es debido a usuarios que responden a otros usando el \textit{hash tag} sin mencionar a ningún otro usuario.
 
@@ -161,13 +161,51 @@ El coeficiente de clustering medio es muy bajo y el de para una red aleatoria m�
 
 La densidad sigue siendo pequeña pero es bastante mayor que la de la red original (20 veces mayor).
 \\ \\
-Distancia-diámetro-distancia aleatoria
+La distancia apenas varía de la red original a la filtrada, aumenta tan solo en 0,01, mientras que el diámetro se mantiene en 4.
 \\ \\
 El coeficiente de \textit{clustering} sigue siendo bastante pequeño, lo cual puede hacer difícil la detección de comunidades para un número de comunidades pequeña.
 \\ \\
 En este caso, al haberse filtrado la red previamente usando la componente gigante, el número de componentes conexas es 1, como no podría ser de otra manera.
 
 \section{Propiedades de la red}
+
+\subsection{Distribución de grados}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=12cm]{img/degree-distribution-filtered}
+	\caption{Distribución de grados para la red filtrada}
+	\label{fig:degree-distribution-filtered}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=12cm]{img/in-degree-distribution-filtered}
+	\caption{Distribución de grados de entrada para la red filtrada}
+	\label{fig:in-degree-distribution-filtered}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=12cm]{img/out-degree-distribution-filtered}
+	\caption{Distribución de grados de salida para la red filtrada}
+	\label{fig:out-degree-distribution-filtered}
+\end{figure}
+
+Se puede observar como se cumple la ley de la potencia: $ P(k) \sim k^{-\gamma} $ y es que la mayoría de los nodos tiene pocos enlaces pero hay unos cuantos \textit{hubs} que tienen muchos, y posteriormente, al visualizarlo se verá una forma de estrella alrededor de estos.
+
+\subsection{Distribución de distancias}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=12cm]{img/eccentricity-distribution-filtered}
+	\caption{Distribución de excentricidad para la red filtrada}
+	\label{fig:eccentricity-distribution-filtered}
+\end{figure}
+
+Recordamos, el diámetro de la red era 4 y la distancia media 1,189. En la distribución vemos como a mayor sea el valor de distancia, menor es el número de nodos. Esto es consecuencia de cumplir la propiedad de mundo pequeño.
+
+\subsection{Distribución de coeficientes de clustering}
 
 Lala
 
