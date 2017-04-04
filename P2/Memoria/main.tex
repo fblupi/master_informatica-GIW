@@ -37,7 +37,7 @@
 
 \author{
 	\myName \\
-	\small \myMail \\
+	\small \texttt{\myMail} \\
 	\small \myDNI \\
 }
 
@@ -75,7 +75,7 @@
 
 \section{Introducción}
 
-El medio social he escogido ha sido Twitter ya que se nos ha proporcionado una herramienta para su fácil extracción de datos (NodeXL) sin tener que perder tiempo programando llamadas a la API de Twitter.
+El medio social que he escogido ha sido Twitter ya que se nos ha proporcionado una herramienta para su fácil extracción de datos (NodeXL) sin tener que perder tiempo programando llamadas a la API de Twitter.
 \\ \\
 La elección del tema fue más complicado, pues sabía que lo mejor era utilizar un tema que conociese y no cualquier \textit{trending topic} que viese un día. Por ello, tras estar varios días extrayendo redes de distintas temáticas, me decidí por la red obtenida tras el primer Gran Premio de Fórmula 1 de la temporada 2017/2018 celebrado en Australia con el \textit{hash tag} oficial \#AusGP.
 \\ \\
@@ -127,7 +127,7 @@ A continuación se ha aplicado un filtro de \textit{k-core} con grado 3 para seg
 	\end{tabular}
 \end{table}
 
-La densidad de la red original es muy pequeña vemos que hay casi el mismo número de nodos que de enlaces, ya que muchos usuarios solo mencionarían a un usuario. La mayoría a la cuenta oficial de F1 (\textit{@f1}) pero muchos otros a Ferrari (\textit{@scuderiaferrari}) ya que Sebastian Vettel (el cual no tiene cuenta oficial de Twitter) fue quien, ante todo pronóstico, ganó la carrera.
+La densidad de la red original es muy pequeña. Vemos que hay casi el mismo número de nodos que de enlaces, ya que muchos usuarios solo mencionarían a un usuario. La mayoría a la cuenta oficial de F1 (\textit{@f1}) pero muchos otros a Ferrari (\textit{@scuderiaferrari}) ya que Sebastian Vettel (el cual no tiene cuenta oficial de Twitter) fue quien, ante todo pronóstico, ganó la carrera.
 \\ \\
 La distancia media de un nodo a otro es muy pequeña lo cual es lógico al haber nodos que están conectados con un enorme número de usuarios. Además, el diámetro es de tan solo 4, por lo que, como muchos en 4 pasos, se podría pasar de un nodo a cualquier otro.
 \\ \\
@@ -169,6 +169,8 @@ En este caso, al haberse filtrado la red previamente usando la componente gigant
 
 \section{Propiedades de la red}
 
+A continuación se describirán propiedades de la red ya filtrada, que será sobre la que se haga la detección de comunidades y visualización.
+
 \subsection{Distribución de grados}
 
 \begin{figure}[H]
@@ -192,7 +194,7 @@ En este caso, al haberse filtrado la red previamente usando la componente gigant
 	\label{fig:out-degree-distribution-filtered}
 \end{figure}
 
-Se puede observar como se cumple la ley de la potencia: $ P(k) \sim k^{-\gamma} $ y es que la mayoría de los nodos tiene pocos enlaces pero hay unos cuantos \textit{hubs} que tienen muchos, y posteriormente, al visualizarlo se verá una forma de estrella alrededor de estos.
+Se puede observar como se cumple la ley de la potencia: $ P(k) \sim k^{-\gamma} $ y es que la mayoría de los nodos tienen pocos enlaces pero hay unos cuantos \textit{hubs} que tienen muchos, y posteriormente, al visualizarlo se verá una forma de estrella alrededor de estos.
 
 \subsection{Distribución de distancias}
 
@@ -386,7 +388,7 @@ Con esto vemos cuales son las cuentas más mencionadas:
 
 \begin{itemize}	
 	\item \textit{@sebvettelnews}: A falta de cuenta oficial del piloto vencedor de la carrera, la cuenta más exitosa que publica noticias sobre él gana protagonismo.
-	\item \textit{@ausgrandprix}: La cuenta oficial del Gran Premio de Australia. Se celebró allí y obviamente es muy mencionado pero no tanto como la propia cuenta oficial de la Fórmula 1.
+	\item \textit{@ausgrandprix}: La cuenta oficial del Gran Premio de Australia. Se celebró allí y obviamente es muy mencionada pero no tanto como la propia cuenta oficial de la Fórmula 1.
 	\item Cuentas de pilotos y equipos: En especial pilotos que tuvieron protagonismo durante la carrera, ya que otros, como Felipe Massa que, pese a lograr una buena posición, tuvo una carrera aburrida con pocas batallas en pista muestra un verde más pálido que equipos como Red Bull, Force India, Toro Rosso o McLaren y sus pilotos que animaron más la carrera.
 \end{itemize}
 
@@ -401,7 +403,7 @@ Lala
 
 \newpage
 
-\bibliography{referencias} %archivo referencias.bib que contiene las entradas 
-\bibliographystyle{plain} % hay varias formas de citar
+%\bibliography{referencias} %archivo referencias.bib que contiene las entradas 
+%\bibliographystyle{plain} % hay varias formas de citar
 
 \end{document}
