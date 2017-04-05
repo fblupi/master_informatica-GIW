@@ -65,7 +65,11 @@
 
 \tableofcontents % para generar el índice de contenidos
 
-%\listoffigures
+\newpage %inserta un salto de página
+
+\listoffigures
+
+\listoftables
 
 \newpage
 
@@ -101,6 +105,7 @@ La red original consta de 4601 nodos y 6698 aristas. Aplicando un primer filtro 
 A continuación se ha aplicado un filtro de \textit{k-core} con grado 3 para seguir simplificándola pues seguía siendo todavía demasiado grande y difícil de visualizar. Aplicando este filtro pasamos a 532 nodos y 1783 aristas.
 
 \section{Valores de medidas de análisis}
+\label{sec:medidas}
 
 \subsection{Red original}
 
@@ -210,7 +215,14 @@ Recordamos, el diámetro de la red era 4 y la distancia media 1,189. En la distr
 
 \subsection{Distribución de coeficientes de clustering}
 
-Lala
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=12cm]{img/clustering-coefficient-distribution-filtered}
+	\caption{Distribución de coeficiente de clustering para la red filtrada}
+	\label{fig:clustering-coefficient-distribution-filtered}
+\end{figure}
+
+El coeficiente de clustering de la red social es bastante bajo, de tan solo 0,131.
 
 \section{Medidas de centralidad para nodos principales}
 \label{sec:hubs}
@@ -406,7 +418,7 @@ Se han probado los dos algoritmos principales para visualizar las redes (de dist
 \end{figure}
 
 También se ha probado el de Kamada Kawai (\textit{Force Atlas 2} en Gephi) usando el número de seguidores para el tamaño del nodo y la comunidad a la que pertenece para el color (Figura \ref{fig:kamada-kawai}).
-
+\\ \\
 Viendo sendas visualizaciones, me parece que aporta más la segunda. Separa muy bien dos comunidades que se alejan bastante del núcleo y dentro de éste la mayoría de los nodos de una misma comunidad están en el centro, excepto los más centrales donde se mezclan de varias comunidades (tal vez porque podrían pertenecer perfectamente a cualquiera).
 
 \begin{figure}[H]
@@ -416,7 +428,7 @@ Viendo sendas visualizaciones, me parece que aporta más la segunda. Separa muy 
 	\label{fig:eigenvector}
 \end{figure}
 
-Para ver más claramente cuáles son los actores principales (en la sección \ref{sec:hubs} observamos que lo mejor era usar el vector propio), y tras ya haber analizado las comunidades, se va a pasar a cambiar el color para que muestre el vector propio (Figura \ref{fig:eigenvector}).
+Para ver más claramente cuáles son los actores principales (en la sección \ref{sec:hubs} observamos que lo mejor era usar el vector propio), y tras ya haber analizado las comunidades, se va a pasar a cambiar el tamaño para que muestre el vector propio (Figura \ref{fig:eigenvector}) en lugar del número de seguidores.
 \\ \\
 Los actores principales son:
 
@@ -448,21 +460,21 @@ Los actores principales son:
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=12cm]{img/mercedesamgf1-mentions}
+	\includegraphics[width=10cm]{img/mercedesamgf1-mentions}
 	\caption{Usuarios que mencionan a la cuenta @mercedesamgf1}
 	\label{fig:mercedesamgf1-mentions}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=12cm]{img/lewishamilton-mentions}
+	\includegraphics[width=10cm]{img/lewishamilton-mentions}
 	\caption{Usuarios que mencionan a la cuenta @lewishamilton}
 	\label{fig:lewishamilton-mentions}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=12cm]{img/valtteribottas-mentions}
+	\includegraphics[width=10cm]{img/valtteribottas-mentions}
 	\caption{Usuarios que mencionan a la cuenta @valtteribottas}
 	\label{fig:valtteribottas-mentions}
 \end{figure}
@@ -500,7 +512,44 @@ Como podemos ver, los pilotos y escuderías que hay entre los diez actores princ
 
 \subsection{Comparación con otras redes sociales}
 
-Lala
+Las redes sociales que hemos visto en clase son:
+
+\begin{itemize}
+	\item Compañeras de mesa residencia femenina
+	\item Club de kárate de Zachary
+	\item Primera temporada de juego de tronos
+	\item Elecciones generales 20D 2015
+\end{itemize}
+
+Por lo que lo primero que se va a hacer es una tabla (Tabla \ref{tab:comparacion-medidas}) con sus valores de medidas como se hizo para nuestra red en la Sección \ref{sec:medidas}:
+
+\begin{table}[H]
+	\centering
+	\caption{Comparativa de valores de las medidas de análisis de nuestra red social con las vistas en clase}
+	\label{tab:comparacion-medidas}
+	\begin{tabular}{| l | l l l l l|}
+		\hline
+		Medida    & AusGP & Dining & Zachary & T1 JdT & 20D 2015 \\ 
+		\hline
+		Dirigido  & Sí    & Sí     & No      & No     & Sí       \\
+		$N$       & 532   & 26     & 34      & 120    & 1807     \\
+		$L$       & 1783  & 52     & 78      & 317    & 8639     \\
+		$D$       & 0,006 & 0,08   & 0,139   & 0,044  & 0,003    \\
+		$k$       & 3,352 & 2      & 2,294   & 5,283  & 4,781    \\
+		$d_{max}$ & 4     & 7      & 3       & 7      & 18       \\
+		$d$       & 1,189 & 2,839  & 1,274   & 3,307  & 5,386    \\
+		$C$       & 0,131 & 0,069  & 0,285   & 0,604  & 0,293    \\
+		\hline
+	\end{tabular}
+\end{table}
+
+En cuanto a tamaño de red no hay ninguna que se le asemeje. Las primeras al ser de grupos sociales cerrados tienen un tamaño muy reducido, y la de las elecciones contiene muchos más tuits que los que yo pude recopilar. No obstante, al ser ambas extraidas de twitter tienen en común la baja densidad, aún menor en la de las elecciones que en la nuestra.
+\\ \\
+En cuanto a grado, la más parecida es la de las elecciones (un grado algo mayor) y la del club de kárate (un grado algo menor).
+\\ \\
+En distancia media y diámetro la que más se asemeja es la del club de kárate y en coeficiente de clustering se vuelven a repetir las de las elecciones y la de kárate como las más parecidas.
+\\ \\
+Por tanto vemos que las más parecidas son tanto la de las elecciones, que en lo que más difiere es en las distancias y la de kárate que difiere bastante en la topología de la red ya que es mucho más pequeña y no es dirigida.
 
 %----------------------------------------------------------------------------------------
 %	REFERENCIAS
