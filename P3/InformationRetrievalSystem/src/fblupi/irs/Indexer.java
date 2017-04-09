@@ -31,24 +31,19 @@ import static org.apache.lucene.index.DirectoryReader.indexExists;
 
 /**
  * Indexer to index documents in a directory using stop words
+ *
+ * @author fblupi
  */
 public class Indexer {
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
-        new Indexer("data/efe/", "data/palabras_vacias_utf8.txt", "data/indexes/");
-    }
-
     /**
      * Build a new indexer for a documents using stop words
      * @param documentsDirectoryName Path to the directory where the documents that will be indexed are stored
      * @param stopWordsFileName Path to the stop words file
      * @param indexDirectoryName Path where the indexer will be stored
      */
-    public Indexer(String documentsDirectoryName, String stopWordsFileName, String indexDirectoryName) throws ParserConfigurationException, IOException, SAXException {
+    public static void index(String documentsDirectoryName, String stopWordsFileName, String indexDirectoryName) throws ParserConfigurationException, IOException, SAXException {
         // Create the analyzer
-        SpanishAnalyzer analyzer = new SpanishAnalyzer(Version.LUCENE_43, importStopWords(stopWordsFileName));
+        SpanishAnalyzer analyzer = new SpanishAnalyzer(Version.LUCENE_43, new CharArraySet(Version.LUCENE_43, Arrays.asList(StringUtils.split(FileUtils.readFileToString(new File(stopWordsFileName), "UTF-8"))), true));
 
         // Read news from a directory
         List<New> news = getNewsFromADirectory(documentsDirectoryName);
@@ -79,21 +74,11 @@ public class Indexer {
     }
 
     /**
-     * Build a CharArraySet with the stop words stored in a file
-     * @param stopWordsFilename Path to the stop words file
-     * @return CharArraySet with the stop words
-     */
-    private CharArraySet importStopWords(String stopWordsFilename) throws IOException {
-        return new CharArraySet(Version.LUCENE_43, Arrays.asList(StringUtils.split(FileUtils.readFileToString(new File(stopWordsFilename), "UTF-8"))), true);
-    }
-
-
-    /**
      * Get a list of news from a list of SGML files
      * @param documentsDirectoryName Path to the directory where the documents are stored
      * @return List with the news
      */
-    private List<New> getNewsFromADirectory(String documentsDirectoryName) throws ParserConfigurationException, IOException, SAXException {
+    private static List<New> getNewsFromADirectory(String documentsDirectoryName) throws ParserConfigurationException, IOException, SAXException {
         List<New> news = new ArrayList<>();
 
         // Get file names
@@ -140,7 +125,7 @@ public class Indexer {
      * @param documentsDirectoryName Path to the directory where the documents are stored
      * @return List of file names
      */
-    private List<String> getSGMLFileNamesFromADirectory(String documentsDirectoryName) {
+    private static List<String> getSGMLFileNamesFromADirectory(String documentsDirectoryName) {
         List<String> fileNameList = new ArrayList<>();
 
         // Get files in a directory
@@ -156,4 +141,10 @@ public class Indexer {
         return fileNameList;
     }
 
+    /**
+     * Create index using efe data and spanish stop words
+     */
+    public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException {
+        index("data/efe/", "data/palabras_vacias_utf8.txt", "data/indexes/");
+    }
 }
