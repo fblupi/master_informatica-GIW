@@ -1,4 +1,4 @@
-package indexer;
+package fblupi.irs;
 
 import news.New;
 
