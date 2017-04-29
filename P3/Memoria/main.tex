@@ -1,0 +1,109 @@
+\input{estilo.tex}
+\usepackage{textcomp}
+\usepackage{hyperref}
+
+%----------------------------------------------------------------------------------------
+%	DATOS
+%----------------------------------------------------------------------------------------
+
+\newcommand{\myName}{Francisco Javier Bolívar Lupiáñez}
+\newcommand{\myMail}{fblupi@correo.ugr.es}
+\newcommand{\myDNI}{75926571-Y}
+\newcommand{\myDegree}{Máster en Ingeniería Informática}
+\newcommand{\myFaculty}{E. T. S. de Ingenierías Informática y de Telecomunicación}
+\newcommand{\myDepartment}{Ciencias de la Computación e Inteligencia Artificial}
+\newcommand{\myUniversity}{\protect{Universidad de Granada}}
+\newcommand{\myLocation}{Granada}
+\newcommand{\myTime}{\today}
+\newcommand{\myTitle}{Práctica 3}
+\newcommand{\mySubtitle}{Desarrollo de un Sistema de Recuperación de Información con Lucene}
+\newcommand{\mySubject}{Gestión de Información en la Web}
+\newcommand{\myYear}{2016-2017}
+
+%----------------------------------------------------------------------------------------
+%	PORTADA
+%----------------------------------------------------------------------------------------
+
+
+\title{	
+	\normalfont \normalsize 
+	\textsc{\textbf{\mySubject \space (\myYear)} \\ \myDepartment} \\[20pt] % Your university, school and/or department name(s)
+	\textsc{\myDegree \\[10pt] \myFaculty \\ \myUniversity} \\[25pt]
+	\horrule{0.5pt} \\[0.4cm] % Thin top horizontal rule
+	\huge \myTitle: \mySubtitle \\ % The assignment title
+	\horrule{2pt} \\[0.5cm] % Thick bottom horizontal rule
+	\normalfont \normalsize
+}
+
+\author{
+	\myName \\
+	\small \texttt{\myMail} \\
+	\small \myDNI \\
+}
+
+\date{\myTime} % Incluye la fecha actual
+%----------------------------------------------------------------------------------------
+%	INDICE
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+	
+\definecolor{light-gray}{gray}{0.95}
+	
+\lstset {
+	basicstyle=\scriptsize,
+	frame=single,
+	backgroundcolor=\color{grey}
+}
+	
+\setcounter{page}{0}
+
+\maketitle % Muestra el Título
+\thispagestyle{empty}
+
+\newpage %inserta un salto de página
+
+\tableofcontents % para generar el índice de contenidos
+
+\newpage %inserta un salto de página
+
+\listoffigures
+
+\listoftables
+
+\newpage
+
+%----------------------------------------------------------------------------------------
+%	DOCUMENTO
+%----------------------------------------------------------------------------------------
+
+\section{Introducción}
+\label{sec:intro}
+
+Los objetivos de esta práctica son:
+
+\begin{itemize}
+	\item Conocer las partes principales que tiene un sistema de recuperación de información y qué funcionalidad tiene cada una.
+	\item Implementar un sistema de recuperación de información.
+	\item Emplear la biblioteca \textbf{Lucene} para facilitar la implementación.
+\end{itemize}
+
+Para el desarrollo se ha utilizado \textbf{Java}, pues es el lenguaje de programación para el que Lucene cuenta con más documentación, además de por la experiencia previa con éste.
+\\ \\
+Se implementarán dos programas:
+
+\begin{itemize}
+	\item \textbf{Indexador}: Recibe como argumentos la ruta de la colección documental a indexar, el fichero de palabras vacías a emplear y la ruta donde se alojarán los índices. Se ejecutará desde la línea de comandos sin ninguna GUI\footnote{\textit{Graphic User Interface} (Interfaz Gráfica de Usuario)} y llevará a cabo la indexación, creando los índices oportunos y ficheros auxiliares necesarios para la recuperación.
+	\item \textbf{Motor de búsqueda}: A diferencia del indexador, éste sí contará con una GUI desde la que se podrá elegir el directorio donde están alojados los índices y permitirá realizar una búsqueda sobre estos.
+\end{itemize}
+
+%----------------------------------------------------------------------------------------
+%	REFERENCIAS
+%----------------------------------------------------------------------------------------
+
+%\newpage
+
+%\bibliography{referencias} %archivo referencias.bib que contiene las entradas 
+%\bibliographystyle{plain} % hay varias formas de citar
+
+\end{document}
