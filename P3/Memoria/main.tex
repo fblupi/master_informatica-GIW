@@ -69,7 +69,7 @@
 
 \listoffigures
 
-\listoftables
+%\listoftables
 
 \newpage
 
@@ -98,6 +98,17 @@ Se implementarán dos programas:
 	\item \textbf{Indexador}: Recibe como argumentos la ruta de la colección documental a indexar, el fichero de palabras vacías a emplear y la ruta donde se alojarán los índices. Se ejecutará desde la línea de comandos sin ninguna GUI y llevará a cabo la indexación, creando los índices oportunos y ficheros auxiliares necesarios para la recuperación.
 	\item \textbf{Motor de búsqueda}: A diferencia del indexador, éste sí contará con una GUI desde la que se podrá elegir el directorio donde están alojados los índices y permitirá realizar una búsqueda sobre estos.
 \end{itemize}
+
+\section{Desarrollo}
+\label{sec:desarrollo}
+
+Se ha desarrollado un indexador y motor de búsqueda básicos sin ningún elemento innovador.
+\\ \\
+Los códigos son muy parecidos a los proporcionados, solo que utilizando un \textit{SpanishAnalyzer} en lugar del \textit{Analyzer} estándar.
+\\ \\
+Se encontraron distintos problemas a la hora de leer los ficheros pues se leyeron con el DOM de Java y no tenían el formato adecuado para ello por lo que se tuvo que englobar todo el contenido de cada fichero entre dos etiquetas \texttt{<SGML>...</SGML>} y se tuvieron que cambiar algunas secuencias de caracteres que causaban fallos en la lectura.
+\\ \\
+El código está disponible en \href{https://github.com/fblupi/master_informatica-GIW/tree/master/P3/InformationRetrievalSystem}{GitHub}.
 
 \section{Manual de usuario}
 \label{sec:manual}
