@@ -90,12 +90,52 @@ Los objetivos de esta práctica son:
 
 Para el desarrollo se ha utilizado \textbf{Java}, pues es el lenguaje de programación para el que Lucene cuenta con más documentación, además de por la experiencia previa con éste.
 \\ \\
+Se ha utilizado \textbf{IntelliJ IDEA Community Edition 2017.1} como IDE\footnote{\textit{Integrated Development Environment} (Entorno de desarrollo integrado)} y \textbf{Swing} para crear la GUI\footnote{\textit{Graphic User Interface} (Interfaz Gráfica de Usuario)}.
+\\ \\
 Se implementarán dos programas:
 
 \begin{itemize}
-	\item \textbf{Indexador}: Recibe como argumentos la ruta de la colección documental a indexar, el fichero de palabras vacías a emplear y la ruta donde se alojarán los índices. Se ejecutará desde la línea de comandos sin ninguna GUI\footnote{\textit{Graphic User Interface} (Interfaz Gráfica de Usuario)} y llevará a cabo la indexación, creando los índices oportunos y ficheros auxiliares necesarios para la recuperación.
+	\item \textbf{Indexador}: Recibe como argumentos la ruta de la colección documental a indexar, el fichero de palabras vacías a emplear y la ruta donde se alojarán los índices. Se ejecutará desde la línea de comandos sin ninguna GUI y llevará a cabo la indexación, creando los índices oportunos y ficheros auxiliares necesarios para la recuperación.
 	\item \textbf{Motor de búsqueda}: A diferencia del indexador, éste sí contará con una GUI desde la que se podrá elegir el directorio donde están alojados los índices y permitirá realizar una búsqueda sobre estos.
 \end{itemize}
+
+\section{Manual de usuario}
+\label{sec:manual}
+
+\subsection{Indexador}
+
+Para indexar tan solo hay que ejecutar el programa (\textit{Indexer}). Los argumentos se encuentran dentro del código (como rutas relativas), por lo que para cambiar las rutas habría que recompilarlo.
+
+\subsection{Motor de Búsqueda}
+
+Para lanzar el motor de búsqueda hay que lanzar el programa \textit{GUI} que ejecutará la interfaz de usuario con el motor de búsqueda (Figura \ref{fig:init}).
+\\ \\
+Utiliza la misma ruta para las palabras vacías que el indexador, y al igual que éste, para cambiar la ruta habría que recompilar.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=12cm]{img/init}
+	\caption{Vista de la GUI recién iniciado el programa}
+	\label{fig:init}
+\end{figure}
+
+Una vez iniciado el programa solo nos permitirá importar los índices, para ello hay que pulsar en el botón y seleccionar el directorio que los contiene (Figura \ref{fig:index-folder-selection}).
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=8cm]{img/index-folder-selection}
+	\caption{Selección del directorio con los índices}
+	\label{fig:index-folder-selection}
+\end{figure}
+
+Ya con los índices cargados se podrán realizar búsquedas. En la izquierda aparecerán los títulos de todos los resultados encontrados, a la derecha el texto completo cuando se selecciona cualquiera de ellos y abajo a la izquierda el número de resultados y el tiempo que ha tardado en encontrarlos (Figura \ref{fig:search}).
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=12cm]{img/search}
+	\caption{Búsqueda del término perro}
+	\label{fig:search}
+\end{figure}
 
 %----------------------------------------------------------------------------------------
 %	REFERENCIAS
