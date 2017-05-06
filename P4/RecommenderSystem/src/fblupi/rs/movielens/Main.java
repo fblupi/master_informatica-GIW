@@ -8,6 +8,8 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         final int NUM_RATINGS = 20;
+        final int NUM_NEIGHBOURHOODS = 20;
+        final boolean RANDOM_RATINGS = true;
 
         Movies movies = new Movies();
         movies.readFile("data/ml-data/u.item");
@@ -28,13 +30,18 @@ public class Main {
             do {
                 System.out.println("Movie: " + movies.getName(idMovie));
                 System.out.println("Enter your rating (1-5):");
-                rating = Integer.parseInt(in.nextLine());
+                if (RANDOM_RATINGS) {
+                    rating = random.nextInt(5) + 1;
+                    System.out.println(rating);
+                } else {
+                    rating = Integer.parseInt(in.nextLine());
+                }
             } while (rating < 0 || rating > 5);
 
             ratings.put(idMovie, rating);
         }
 
-        Map<Integer, Double> neighbourhoods = users.getNeighbourhoods(ratings, 5);
-        //System.out.println(neighbourhoods);
+        Map<Integer, Double> neighbourhoods = users.getNeighbourhoods(ratings, NUM_NEIGHBOURHOODS);
+        System.out.println(neighbourhoods);
     }
 }

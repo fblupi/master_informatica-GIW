@@ -49,9 +49,9 @@ public class Users {
     }
 
     Map<Integer, Double> getNeighbourhoods(Map<Integer, Integer> userRatings, int k) {
-        Map<Integer, Double> neighbourhoods = new HashMap<>();
+        Map<Integer, Double> neighbourhoods = new HashMap<Integer, Double>();
         ValueComparator valueComparator = new ValueComparator(neighbourhoods);
-        Map<Integer, Double> sortedNeighbourhoods = new TreeMap<>(valueComparator);
+        Map<Integer, Double> sortedNeighbourhoods = new TreeMap<Integer, Double>(valueComparator);
 
         double userAverage = 0;
         Iterator userEntries = userRatings.entrySet().iterator();
@@ -96,13 +96,16 @@ public class Users {
             neighbourhoods.put(user, matchRate);
         }
 
+        sortedNeighbourhoods.putAll(neighbourhoods);
+
         Map<Integer, Double> output = new HashMap<>();
 
-        Set keys = sortedNeighbourhoods.keySet();
-        int iterations = 0;
-        for (Iterator i = keys.iterator(); i.hasNext() && iterations < k; iterations++) {
-            Integer key = (Integer) i.next();
-            output.put(key, sortedNeighbourhoods.get(key));
+        Iterator entries = sortedNeighbourhoods.entrySet().iterator();
+        int i = 0;
+        while (entries.hasNext() && i < k) {
+            Map.Entry entry = (Map.Entry) entries.next();
+            output.put((int) entry.getKey(), (double) entry.getValue());
+            i++;
         }
 
         return output;
@@ -134,9 +137,9 @@ class ValueComparator implements Comparator<Integer> {
 
     public int compare(Integer a, Integer b) {
         if (base.get(a) > base.get(b)) {
-            return 1;
-        } else {
             return -1;
+        } else {
+            return 1;
         }
     }
 }
