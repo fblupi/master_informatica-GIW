@@ -2,7 +2,7 @@ package fblupi.rs.movielens;
 
 import java.util.*;
 
-public class Main {
+public class Recommender {
     public static void main(String[] args) {
         final int NUM_RATINGS = 20;
         final int NUM_NEIGHBOURHOODS = 10;
@@ -39,7 +39,6 @@ public class Main {
                     rating = Integer.parseInt(in.nextLine());
                 }
             } while (rating < 0 || rating > 5);
-
             ratings.put(idMovie, rating);
         }
 

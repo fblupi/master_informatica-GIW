@@ -52,15 +52,12 @@ public class Movies {
     public void readFile(String filename) {
         try {
             BufferedReader br = new BufferedReader(new FileReader(filename));
-
             String line = br.readLine();
             while (line != null) {
                 String[] splitLine = line.split("\\|");
                 movies.put(Integer.parseInt(splitLine[0]), splitLine[1]);
-
                 line = br.readLine();
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }

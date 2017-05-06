@@ -34,7 +34,6 @@ public class Users {
     public void readFile(String filename) {
         try {
             BufferedReader br = new BufferedReader(new FileReader(filename));
-
             String line = br.readLine();
             while (line != null) {
                 String[] splitLine = line.split("\t");
@@ -51,10 +50,8 @@ public class Users {
                     ratings.put(idUser, movieRating);
                     averageRating.put(idUser, (double) rating);
                 }
-
                 line = br.readLine();
             }
-
             Iterator entries = averageRating.entrySet().iterator();
             while (entries.hasNext()) {
                 Map.Entry entry = (Map.Entry) entries.next();
@@ -68,11 +65,11 @@ public class Users {
     /**
      * Get the k-nearest neighbourhoods using Pearson:
      *   sim(i,j) = numerator / (sqrt(userDenominator^2) * sqrt(otherUserDenominator^2))
-     *     numerator = sum((r(u,i) - r(i)) * (r(u,j) - r(j)))
+     *     numerator = sum((r(u,i) - r(u)) * (r(v,i) - r(v)))
      *     userDenominator = sum(r(u,i) - r(i))
-     *     otherUserDenominator = sum(r(u,j) - r(j))
-     *     r(u,i): rating of the movie u by the user i
-     *     r(i): average rating of the user i
+     *     otherUserDenominator = sum(r(v,i) - r(v))
+     *     r(u,i): rating of the movie i by the user u
+     *     r(u): average rating of the user u
      * @param userRatings ratings of the user
      * @param k number of output neighbourhoods
      * @return nearest neighbourhoods
@@ -82,13 +79,7 @@ public class Users {
         ValueComparator valueComparator = new ValueComparator(neighbourhoods);
         Map<Integer, Double> sortedNeighbourhoods = new TreeMap<>(valueComparator);
 
-        double userAverage = 0;
-        Iterator userEntries = userRatings.entrySet().iterator();
-        while (userEntries.hasNext()) {
-            Map.Entry entry = (Map.Entry) userEntries.next();
-            userAverage += (int) entry.getValue();
-        }
-        userAverage /= userRatings.size();
+        double userAverage = getAverage(userRatings);
 
         for (int user : ratings.keySet()) {
             ArrayList<Integer> matches = new ArrayList<>();
@@ -138,9 +129,10 @@ public class Users {
 
     /**
      * Get predictions of each movie by a user giving some ratings and its neighbourhood:
-     *   r(u,i) = sum(sim(i,j) * r(u,j)) / sum(abs(sim(i,j)))
-     *     sim(i,j): similarity between i and j users
-     *     r(u,j): rating of the movie u by the user j
+     *   r(u,i) = r(u) + sum(sim(u,v) * (r(v,i) - r(v))) / sum(abs(sim(u,v)))
+     *     sim(u,v): similarity between u and v users
+     *     r(u,i): rating of the movie i by the user u
+     *     r(u): average rating of the user u
      * @param userRatings ratings of the user
      * @param neighbourhoods nearest neighbourhoods
      * @param movies movies in the database
@@ -150,25 +142,42 @@ public class Users {
                                                    Map<Integer, Double> neighbourhoods, Map<Integer, String> movies) {
         Map<Integer, Double> predictedRatings = new HashMap<>();
 
+        double userAverage = getAverage(userRatings);
+
         for (int movie : movies.keySet()) {
             if (!userRatings.containsKey(movie)) {
                 double numerator = 0, denominator = 0;
                 for (int neighbourhood : neighbourhoods.keySet()) {
                     if (ratings.get(neighbourhood).containsKey(movie)) {
                         double matchRate = neighbourhoods.get(neighbourhood);
-                        numerator += matchRate * ratings.get(neighbourhood).get(movie);
+                        numerator += matchRate * (ratings.get(neighbourhood).get(movie) - averageRating.get(neighbourhood));
                         denominator += Math.abs(matchRate);
                     }
                 }
                 double predictedRating = 0;
                 if (denominator > 0) {
-                    predictedRating = numerator / denominator;
+                    predictedRating = userAverage + numerator / denominator;
                 }
                 predictedRatings.put(movie, predictedRating);
             }
         }
 
         return predictedRatings;
+    }
+
+    /**
+     * Get average of the ratings of a user
+     * @param userRatings ratings of a user
+     * @return average or the ratings of a user
+     */
+    private double getAverage(Map<Integer, Integer> userRatings) {
+        double userAverage = 0;
+        Iterator userEntries = userRatings.entrySet().iterator();
+        while (userEntries.hasNext()) {
+            Map.Entry entry = (Map.Entry) userEntries.next();
+            userAverage += (int) entry.getValue();
+        }
+        return userAverage / userRatings.size();
     }
 }
 
