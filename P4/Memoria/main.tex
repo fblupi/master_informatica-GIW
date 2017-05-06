@@ -1,0 +1,243 @@
+\input{estilo.tex}
+\usepackage{textcomp}
+\usepackage{hyperref}
+
+%----------------------------------------------------------------------------------------
+%	DATOS
+%----------------------------------------------------------------------------------------
+
+\newcommand{\myName}{Francisco Javier Bolívar Lupiáñez}
+\newcommand{\myMail}{fblupi@correo.ugr.es}
+\newcommand{\myDNI}{75926571-Y}
+\newcommand{\myDegree}{Máster en Ingeniería Informática}
+\newcommand{\myFaculty}{E. T. S. de Ingenierías Informática y de Telecomunicación}
+\newcommand{\myDepartment}{Ciencias de la Computación e Inteligencia Artificial}
+\newcommand{\myUniversity}{\protect{Universidad de Granada}}
+\newcommand{\myLocation}{Granada}
+\newcommand{\myTime}{\today}
+\newcommand{\myTitle}{Práctica 4}
+\newcommand{\mySubtitle}{Desarrollo de un Sistema de Recomendación basado en Filtrado Colaborativo}
+\newcommand{\mySubject}{Gestión de Información en la Web}
+\newcommand{\myYear}{2016-2017}
+
+%----------------------------------------------------------------------------------------
+%	PORTADA
+%----------------------------------------------------------------------------------------
+
+
+\title{	
+	\normalfont \normalsize 
+	\textsc{\textbf{\mySubject \space (\myYear)} \\ \myDepartment} \\[20pt] % Your university, school and/or department name(s)
+	\textsc{\myDegree \\[10pt] \myFaculty \\ \myUniversity} \\[25pt]
+	\horrule{0.5pt} \\[0.4cm] % Thin top horizontal rule
+	\huge \myTitle: \mySubtitle \\ % The assignment title
+	\horrule{2pt} \\[0.5cm] % Thick bottom horizontal rule
+	\normalfont \normalsize
+}
+
+\author{
+	\myName \\
+	\small \texttt{\myMail} \\
+	\small \myDNI \\
+}
+
+\date{\myTime} % Incluye la fecha actual
+%----------------------------------------------------------------------------------------
+%	INDICE
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+	
+\definecolor{light-gray}{gray}{0.95}
+	
+\lstset {
+	basicstyle=\scriptsize,
+	frame=single,
+	backgroundcolor=\color{grey},
+	breaklines=true
+}
+	
+\setcounter{page}{0}
+
+\maketitle % Muestra el Título
+\thispagestyle{empty}
+
+\newpage %inserta un salto de página
+
+\tableofcontents % para generar el índice de contenidos
+
+\newpage %inserta un salto de página
+
+%\listoffigures
+
+%\listoftables
+
+\newpage
+
+%----------------------------------------------------------------------------------------
+%	DOCUMENTO
+%----------------------------------------------------------------------------------------
+
+\section{Introducción}
+\label{sec:intro}
+
+Los objetivos de esta práctica son:
+
+\begin{itemize}
+	\item Entender el proceso de recomendación basado en filtrado colaborativo.
+	\item Ser capaz de plasmarlo en un programa de ordenador.
+\end{itemize}
+
+Para el desarrollo se ha utilizado \textbf{Java} por la experiencia previa con éste.
+\\ \\
+Se ha utilizado \textbf{IntelliJ IDEA Community Edition 2017.1} como IDE\footnote{\textit{Integrated Development Environment} (Entorno de desarrollo integrado)}.
+\\ \\
+Se implementarán un programa:
+
+\begin{itemize}
+	\item \textbf{Recommender}: El cual obtiene las valoraciones de películas de un usuario y obtiene su vecindario a partir de la base de datos \textit{Movie Lens} utilizando la correlación de Pearson para, a continuación, obtener películas recomendadas.
+\end{itemize}
+
+\section{Desarrollo}
+\label{sec:desarrollo}
+
+En primer lugar se han leído tanto la información de películas como de valoraciones de los archivos \texttt{u.item} y \texttt{u.data} respectivamente de la base de datos de \textit{Movie Lens}. 
+
+\begin{itemize}
+	\item Las películas se han almacenado en un diccionario donde la clave es el id de la película y el valor el nombre.
+	\item Las recomendaciones se han almacenado en un diccionario donde la clave es el id del usuario y la clave un diccionario en el que la clave es el id de la película y el valor la valoración del usuario.
+	\item Adicionalmente se ha creado otro diccionario en el que la clave es el id del usuario y el valor la valoración media que da a las películas. Ya que este datos se utiliza mucho.
+\end{itemize}
+
+Lo siguiente que he realizado ha sido obtener el vecindario. Para ello, además de las valoraciones extraídas de la base de datos se necesitan valoraciones del usuario y el número de vecinos más cercanos que se quiere.
+\\ \\
+Para obtener las puntuaciones se puede hacer introduciendo datos a mano o aleatoriamente cambiando un \textit{flag} en el \texttt{main}.
+\\ \\
+Una vez se tienen estos datos se pasa a calcular la similitud de todos los usuarios extraídos de la base de datos de \textit{Movie Lens}. Para ello se ha utilizado la correlación de Pearson:
+
+\[ sim(u,v) = \frac{\sum(r(u,i)-\bar{r}(u))(r(v,i)-\bar{r}(v))}{\sqrt{\sum(r(u,i)-\bar{r}(u))^2}\sqrt{\sum(r(v,i)-\bar{r}(v))^2}} \]
+
+Donde $ r(u,i) $ es la valoración del usuario \textit{u} a la película \textit{i} y $ \bar{r}(u) $ la valoración media del usuario \textit{u}.
+\\ \\
+Una vez obtenidos todos los usuarios se han ordenado (\url{http://stackoverflow.com/questions/109383/sort-a-mapkey-value-by-values-java}) y se han cogido los \textit{k} primeros.
+\\ \\
+Con estos se puede pasar a calcular la recomendación para el resto de películas:
+
+\[ \hat{r}(u,i) = \bar{r}(u) + \frac{sim(u,v)(r(v,i)-\bar{r}(v))}{\sum|sim(u,v)|} \]
+
+Donde $ r(v,i) $ es la valoración del usuario \textit{v} a la película \textit{i}, $ \bar{r}(u) $ la valoración media del usuario \textit{u} y $ sim(u,v) $ la similitud entre los usuarios \textit{u} y \textit{v} calculada anteriormente.
+\\ \\
+Por último se han seleccionado las \textit{n} películas con más valoración siempre y cuando esta valoración supere el umbral de 4 estrellas.
+\\ \\
+El código está disponible en \href{https://github.com/fblupi/master_informatica-GIW/tree/master/P3/InformationRetrievalSystem}{GitHub}.
+
+\section{Manual de usuario}
+\label{sec:manual}
+
+El programa se ejecutará en línea de órdenes.
+\\ \\
+Tan solo hay que ejecutar el programa e introducir valoraciones, el programa devolverá los resultados.
+\\ \\
+Para cambiar cualquiera de los \textit{flags} (número de valoraciones de entrada, número de vecinos más cercanos, número de recomendaciones, puntuación mínima para recomendar y valoraciones de entrada aleatorias o no) hay que cambiar el código y recompilar.
+
+\subsection{Ejemplo de salida}
+
+\begin{lstlisting}
+**********************************************
+Obtaining user data: 
+**********************************************
+Movie: Boys on the Side (1995)
+Enter your rating (1-5):
+1
+Movie: Jungle Book, The (1994)
+Enter your rating (1-5):
+2
+Movie: Man Without a Face, The (1993)
+Enter your rating (1-5):
+3
+Movie: First Kid (1996)
+Enter your rating (1-5):
+2
+Movie: Sphere (1998)
+Enter your rating (1-5):
+1
+Movie: Cliffhanger (1993)
+Enter your rating (1-5):
+5
+Movie: Ghosts of Mississippi (1996)
+Enter your rating (1-5):
+3
+Movie: Glass Shield, The (1994)
+Enter your rating (1-5):
+3
+Movie: Death and the Maiden (1994)
+Enter your rating (1-5):
+1
+Movie: Naked in New York (1994)
+Enter your rating (1-5):
+4
+Movie: Barcelona (1994)
+Enter your rating (1-5):
+1
+Movie: Lawnmower Man, The (1992)
+Enter your rating (1-5):
+3
+Movie: Pete's Dragon (1977)
+Enter your rating (1-5):
+3
+Movie: Wings of Courage (1995)
+Enter your rating (1-5):
+4
+Movie: Terminator, The (1984)
+Enter your rating (1-5):
+1
+Movie: Smilla's Sense of Snow (1997)
+Enter your rating (1-5):
+4
+Movie: Executive Decision (1996)
+Enter your rating (1-5):
+5
+Movie: Only You (1994)
+Enter your rating (1-5):
+2
+Movie: Fish Called Wanda, A (1988)
+Enter your rating (1-5):
+4
+Movie: Thin Line Between Love and Hate, A (1996)
+Enter your rating (1-5):
+3
+**********************************************
+Recommendations: 
+**********************************************
+Movie: Cop Land (1997), Rating: 4.544520547945206
+Movie: Underground (1995), Rating: 4.470496894409938
+Movie: Faust (1994), Rating: 4.470496894409938
+Movie: 8 1/2 (1963), Rating: 4.470496894409938
+Movie: City of Lost Children, The (1995), Rating: 4.470496894409938
+Movie: Nosferatu (Nosferatu, eine Symphonie des Grauens) (1922), Rating: 4.470496894409938
+Movie: Close Shave, A (1995), Rating: 4.470496894409938
+Movie: This Is Spinal Tap (1984), Rating: 4.470496894409938
+Movie: Grand Day Out, A (1992), Rating: 4.470496894409938
+Movie: Delicatessen (1991), Rating: 4.470496894409938
+Movie: Cinema Paradiso (1988), Rating: 4.470496894409938
+Movie: Wrong Trousers, The (1993), Rating: 4.470496894409938
+Movie: Sleeper (1973), Rating: 4.470496894409938
+Movie: Three Colors: White (1994), Rating: 4.470496894409938
+Movie: Three Colors: Blue (1993), Rating: 4.470496894409938
+Movie: Three Colors: Red (1994), Rating: 4.470496894409938
+Movie: Postino, Il (1994), Rating: 4.470496894409938
+Movie: Mrs. Brown (Her Majesty, Mrs. Brown) (1997), Rating: 4.230593607305936
+Movie: Anastasia (1997), Rating: 4.228260869565217
+Movie: Manchurian Candidate, The (1962), Rating: 4.1535087719298245
+\end{lstlisting}
+
+%----------------------------------------------------------------------------------------
+%	REFERENCIAS
+%----------------------------------------------------------------------------------------
+
+%\newpage
+
+%\bibliography{referencias} %archivo referencias.bib que contiene las entradas 
+%\bibliographystyle{plain} % hay varias formas de citar
+
+\end{document}
