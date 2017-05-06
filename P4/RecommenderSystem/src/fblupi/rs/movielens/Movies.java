@@ -20,6 +20,10 @@ public class Movies {
         return movies.get(id);
     }
 
+    public Map<Integer, String> getMovies() {
+        return  movies;
+    }
+
     public void readFile(String filename) {
         try {
             BufferedReader br = new BufferedReader(new FileReader(filename));

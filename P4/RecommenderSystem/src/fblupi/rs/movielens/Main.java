@@ -1,14 +1,13 @@
 package fblupi.rs.movielens;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
         final int NUM_RATINGS = 20;
-        final int NUM_NEIGHBOURHOODS = 20;
+        final int NUM_NEIGHBOURHOODS = 10;
+        final int NUM_RECOMMENDATIONS = 10;
+        final int MIN_VALUE_RECOMMENDATION = 4;
         final boolean RANDOM_RATINGS = true;
 
         Movies movies = new Movies();
@@ -21,6 +20,9 @@ public class Main {
         Random random = new Random();
         Scanner in = new Scanner(System.in);
 
+        System.out.println("**********************************************");
+        System.out.println("Obtaining user data: ");
+        System.out.println("**********************************************");
         for (int i = 0; i < NUM_RATINGS; i++) {
             int idMovie = random.nextInt(movies.size());
             while (ratings.containsKey(idMovie)) {
@@ -42,6 +44,23 @@ public class Main {
         }
 
         Map<Integer, Double> neighbourhoods = users.getNeighbourhoods(ratings, NUM_NEIGHBOURHOODS);
-        System.out.println(neighbourhoods);
+        Map<Integer, Double> recommendations = users.getRecommendations(ratings, neighbourhoods, movies.getMovies());
+
+        ValueComparator valueComparator = new ValueComparator(recommendations);
+        Map<Integer, Double> sortedRecommendations = new TreeMap<>(valueComparator);
+        sortedRecommendations.putAll(recommendations);
+
+        System.out.println("**********************************************");
+        System.out.println("Recommendations: ");
+        System.out.println("**********************************************");
+        Iterator entries = sortedRecommendations.entrySet().iterator();
+        int i = 0;
+        while (entries.hasNext() && i < NUM_RECOMMENDATIONS) {
+            Map.Entry entry = (Map.Entry) entries.next();
+            if ((double) entry.getValue() >= MIN_VALUE_RECOMMENDATION) {
+                System.out.println("Movie: " + movies.getName((int) entry.getKey()) + ", Rating: " + entry.getValue());
+                i++;
+            }
+        }
     }
 }

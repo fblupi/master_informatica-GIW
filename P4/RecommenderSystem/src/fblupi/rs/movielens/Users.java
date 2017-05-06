@@ -6,8 +6,8 @@ import java.io.IOException;
 import java.util.*;
 
 public class Users {
-    Map<Integer, Map<Integer, Integer> > ratings;
-    Map<Integer, Double> averageRating;
+    private Map<Integer, Map<Integer, Integer> > ratings;
+    private Map<Integer, Double> averageRating;
 
     public Users() {
         ratings = new HashMap<>();
@@ -48,10 +48,10 @@ public class Users {
         }
     }
 
-    Map<Integer, Double> getNeighbourhoods(Map<Integer, Integer> userRatings, int k) {
-        Map<Integer, Double> neighbourhoods = new HashMap<Integer, Double>();
+    public Map<Integer, Double> getNeighbourhoods(Map<Integer, Integer> userRatings, int k) {
+        Map<Integer, Double> neighbourhoods = new HashMap<>();
         ValueComparator valueComparator = new ValueComparator(neighbourhoods);
-        Map<Integer, Double> sortedNeighbourhoods = new TreeMap<Integer, Double>(valueComparator);
+        Map<Integer, Double> sortedNeighbourhoods = new TreeMap<>(valueComparator);
 
         double userAverage = 0;
         Iterator userEntries = userRatings.entrySet().iterator();
@@ -98,7 +98,7 @@ public class Users {
 
         sortedNeighbourhoods.putAll(neighbourhoods);
 
-        Map<Integer, Double> output = new HashMap<>();
+        Map<Integer, Double> output = new TreeMap<>();
 
         Iterator entries = sortedNeighbourhoods.entrySet().iterator();
         int i = 0;
@@ -109,6 +109,34 @@ public class Users {
         }
 
         return output;
+    }
+
+    public Map<Integer, Double> getRecommendations(Map<Integer, Integer> userRatings, Map<Integer, Double> neighbourhoods, Map<Integer, String> movies) {
+        Map<Integer, Double> predictedRatings = new HashMap<>();
+
+        for (int movie : movies.keySet()) {
+            if (!userRatings.containsKey(movie)) {
+                double numerator = 0, denominator = 0;
+                for (int neighbourhood : neighbourhoods.keySet()) {
+                    if (ratings.get(neighbourhood).containsKey(movie)) {
+                        double matchRate = neighbourhoods.get(neighbourhood);
+                        if (matchRate > 0.5) {
+                            numerator += matchRate * ratings.get(neighbourhood).get(movie);
+                        } else {
+                            numerator -= matchRate * ratings.get(neighbourhood).get(movie);
+                        }
+                        denominator += matchRate;
+                    }
+                }
+                double predictedRating = 0;
+                if (denominator > 0) {
+                    predictedRating = numerator / denominator;
+                }
+                predictedRatings.put(movie, predictedRating);
+            }
+        }
+
+        return predictedRatings;
     }
 
     @Override
@@ -129,14 +157,14 @@ public class Users {
  * http://stackoverflow.com/questions/109383/sort-a-mapkey-value-by-values-java
  */
 class ValueComparator implements Comparator<Integer> {
-    Map<Integer, Double> base;
+    private Map<Integer, Double> base;
 
     public ValueComparator(Map<Integer, Double> base) {
         this.base = base;
     }
 
     public int compare(Integer a, Integer b) {
-        if (base.get(a) > base.get(b)) {
+        if (base.get(a) >= base.get(b)) {
             return -1;
         } else {
             return 1;
