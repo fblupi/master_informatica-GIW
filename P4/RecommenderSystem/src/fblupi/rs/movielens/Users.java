@@ -5,15 +5,32 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * Ratings of the users in Movie-Lens database
+ */
 public class Users {
+    /**
+     * Map with the user id as key and its ratings as value that is a map with movie id as key and its rating as value
+     */
     private Map<Integer, Map<Integer, Integer> > ratings;
+
+    /**
+     * Average rating of each user where the key is the user id and the value its average rating
+     */
     private Map<Integer, Double> averageRating;
 
+    /**
+     * Constructor
+     */
     public Users() {
         ratings = new HashMap<>();
         averageRating = new HashMap<>();
     }
 
+    /**
+     * Fill map with the films in the file with the filename given
+     * @param filename name of the file with the films
+     */
     public void readFile(String filename) {
         try {
             BufferedReader br = new BufferedReader(new FileReader(filename));
@@ -48,6 +65,18 @@ public class Users {
         }
     }
 
+    /**
+     * Get the k-nearest neighbourhoods using Pearson:
+     *   sim(i,j) = numerator / (sqrt(userDenominator^2) * sqrt(otherUserDenominator^2))
+     *     numerator = sum((r(u,i) - r(i)) * (r(u,j) - r(j)))
+     *     userDenominator = sum(r(u,i) - r(i))
+     *     otherUserDenominator = sum(r(u,j) - r(j))
+     *     r(u,i): rating of the movie u by the user i
+     *     r(i): average rating of the user i
+     * @param userRatings ratings of the user
+     * @param k number of output neighbourhoods
+     * @return nearest neighbourhoods
+     */
     public Map<Integer, Double> getNeighbourhoods(Map<Integer, Integer> userRatings, int k) {
         Map<Integer, Double> neighbourhoods = new HashMap<>();
         ValueComparator valueComparator = new ValueComparator(neighbourhoods);
@@ -63,15 +92,12 @@ public class Users {
 
         for (int user : ratings.keySet()) {
             ArrayList<Integer> matches = new ArrayList<>();
-
             for (int movie : userRatings.keySet()) {
                 if (ratings.get(user).containsKey(movie)) {
                     matches.add(movie);
                 }
             }
-
             double matchRate, numerator = 0, userDenominator = 0, otherUserDenominator = 0;
-
             if (matches.size() > 0) {
                 for (int movie : matches) {
                     int u = userRatings.get(movie);
@@ -95,7 +121,6 @@ public class Users {
 
             neighbourhoods.put(user, matchRate);
         }
-
         sortedNeighbourhoods.putAll(neighbourhoods);
 
         Map<Integer, Double> output = new TreeMap<>();
@@ -111,7 +136,18 @@ public class Users {
         return output;
     }
 
-    public Map<Integer, Double> getRecommendations(Map<Integer, Integer> userRatings, Map<Integer, Double> neighbourhoods, Map<Integer, String> movies) {
+    /**
+     * Get predictions of each movie by a user giving some ratings and its neighbourhood:
+     *   r(u,i) = sum(sim(i,j) * r(u,j)) / sum(abs(sim(i,j)))
+     *     sim(i,j): similarity between i and j users
+     *     r(u,j): rating of the movie u by the user j
+     * @param userRatings ratings of the user
+     * @param neighbourhoods nearest neighbourhoods
+     * @param movies movies in the database
+     * @return predictions for each movie
+     */
+    public Map<Integer, Double> getRecommendations(Map<Integer, Integer> userRatings,
+                                                   Map<Integer, Double> neighbourhoods, Map<Integer, String> movies) {
         Map<Integer, Double> predictedRatings = new HashMap<>();
 
         for (int movie : movies.keySet()) {
@@ -120,12 +156,8 @@ public class Users {
                 for (int neighbourhood : neighbourhoods.keySet()) {
                     if (ratings.get(neighbourhood).containsKey(movie)) {
                         double matchRate = neighbourhoods.get(neighbourhood);
-                        if (matchRate > 0.5) {
-                            numerator += matchRate * ratings.get(neighbourhood).get(movie);
-                        } else {
-                            numerator -= matchRate * ratings.get(neighbourhood).get(movie);
-                        }
-                        denominator += matchRate;
+                        numerator += matchRate * ratings.get(neighbourhood).get(movie);
+                        denominator += Math.abs(matchRate);
                     }
                 }
                 double predictedRating = 0;
@@ -138,22 +170,10 @@ public class Users {
 
         return predictedRatings;
     }
-
-    @Override
-    public String toString() {
-        String output = "";
-        Iterator userEntries = ratings.entrySet().iterator();
-        while (userEntries.hasNext()) {
-            Map.Entry entry = (Map.Entry) userEntries.next();
-            output += "idUser: " + entry.getKey() + "\n";
-            output += "ratings: " + entry.getValue() + "\n";
-            output += "average: "  + averageRating.get(entry.getKey()) + "\n\n";
-        }
-        return  output;
-    }
 }
 
 /**
+ * Comparator to sort a HashMap by its value:
  * http://stackoverflow.com/questions/109383/sort-a-mapkey-value-by-values-java
  */
 class ValueComparator implements Comparator<Integer> {

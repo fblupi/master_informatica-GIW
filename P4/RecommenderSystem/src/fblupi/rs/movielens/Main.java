@@ -6,7 +6,7 @@ public class Main {
     public static void main(String[] args) {
         final int NUM_RATINGS = 20;
         final int NUM_NEIGHBOURHOODS = 10;
-        final int NUM_RECOMMENDATIONS = 10;
+        final int NUM_RECOMMENDATIONS = 20;
         final int MIN_VALUE_RECOMMENDATION = 4;
         final boolean RANDOM_RATINGS = true;
 
