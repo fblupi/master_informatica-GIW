@@ -12,6 +12,14 @@ public class Movies {
         movies = new HashMap<>();
     }
 
+    public int size() {
+        return movies.size();
+    }
+
+    public String getName(int id) {
+        return movies.get(id);
+    }
+
     public void readFile(String filename) {
         try {
             BufferedReader br = new BufferedReader(new FileReader(filename));

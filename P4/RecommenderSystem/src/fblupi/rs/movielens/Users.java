@@ -57,7 +57,7 @@ public class Users {
         Iterator userEntries = userRatings.entrySet().iterator();
         while (userEntries.hasNext()) {
             Map.Entry entry = (Map.Entry) userEntries.next();
-            userAverage += (double) entry.getValue();
+            userAverage += (int) entry.getValue();
         }
         userAverage /= userRatings.size();
 
