@@ -1,0 +1,6 @@
+# IntelliJ Project
+
+.idea/
+out/
+*.iml
+data/indexes/
