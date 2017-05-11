@@ -88,26 +88,24 @@ public class Users {
                     matches.add(movie);
                 }
             }
-            double matchRate, numerator = 0, userDenominator = 0, otherUserDenominator = 0;
+            double matchRate;
             if (matches.size() > 0) {
+                double numerator = 0, userDenominator = 0, otherUserDenominator = 0;
                 for (int movie : matches) {
-                    int u = userRatings.get(movie);
-                    int v = ratings.get(user).get(movie);
-
-                    u -= userAverage;
-                    v -= averageRating.get(user);
+                    double u = userRatings.get(movie) - userAverage;
+                    double v = ratings.get(user).get(movie) - averageRating.get(user);
 
                     numerator += u * v;
                     userDenominator += u * u;
                     otherUserDenominator += v * v;
                 }
                 if (userDenominator == 0 || otherUserDenominator == 0) {
-                    matchRate = -1;
+                    matchRate = 0;
                 } else {
                     matchRate = numerator / (Math.sqrt(userDenominator) * Math.sqrt(otherUserDenominator));
                 }
             } else {
-                matchRate = -1;
+                matchRate = 0;
             }
 
             neighbourhoods.put(user, matchRate);
@@ -120,8 +118,10 @@ public class Users {
         int i = 0;
         while (entries.hasNext() && i < k) {
             Map.Entry entry = (Map.Entry) entries.next();
-            output.put((int) entry.getKey(), (double) entry.getValue());
-            i++;
+            if ((double) entry.getValue() > 0) {
+                output.put((int) entry.getKey(), (double) entry.getValue());
+                i++;
+            }
         }
 
         return output;
@@ -150,13 +150,17 @@ public class Users {
                 for (int neighbourhood : neighbourhoods.keySet()) {
                     if (ratings.get(neighbourhood).containsKey(movie)) {
                         double matchRate = neighbourhoods.get(neighbourhood);
-                        numerator += matchRate * (ratings.get(neighbourhood).get(movie) - averageRating.get(neighbourhood));
+                        numerator +=
+                                matchRate * (ratings.get(neighbourhood).get(movie) - averageRating.get(neighbourhood));
                         denominator += Math.abs(matchRate);
                     }
                 }
                 double predictedRating = 0;
                 if (denominator > 0) {
                     predictedRating = userAverage + numerator / denominator;
+                    if (predictedRating > 5) {
+                        predictedRating = 5;
+                    }
                 }
                 predictedRatings.put(movie, predictedRating);
             }
